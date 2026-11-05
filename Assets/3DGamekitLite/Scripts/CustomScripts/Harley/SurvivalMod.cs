@@ -60,4 +60,9 @@ public class SurvivalMod : MonoBehaviour
                     playerObject.GetComponent<Damageable>().ApplyDamage(msg);
                     Debug.Log("Damage from thirst");
     }
+
+    public void AddWater()
+    {
+        Debug.Log("Added random water");
+    }
 }
