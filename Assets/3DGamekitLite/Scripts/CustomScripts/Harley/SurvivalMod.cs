@@ -1,16 +1,16 @@
 using Gamekit3D;
 using UnityEngine;
-
+using TMPro;
 public class SurvivalMod : MonoBehaviour
 {
-    [SerializeField] private float thirstLevel = 100f;
+    public static float thirstLevel = 100f;
     [SerializeField] private float thirstSpeed;
     [SerializeField] private float timer = 10f;
-
+    [SerializeField] private TextMeshProUGUI survivalText;
     [SerializeField] private bool thirsty;
     [SerializeField] private bool parched;
 
-    public int waterBottles = 0;
+    public static int waterBottles = 0;
 
     [SerializeField] private GameObject playerObject;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,6 +35,16 @@ public class SurvivalMod : MonoBehaviour
                 parched = true;
             }
 
+        if (thirstLevel <= 0 && waterBottles > 0)
+        {
+            waterBottles -= 1;
+            thirstLevel = 100f;
+            thirsty = false;
+            parched = false;
+            timer = 10f;
+            Debug.Log("drank a water bottle. I have" + waterBottles + "left");
+        }
+
         if (thirstLevel <= 0 && thirsty)
         {
             timer -= Time.deltaTime;
@@ -43,6 +53,11 @@ public class SurvivalMod : MonoBehaviour
                 ThirstDamage();
                 timer = 10f;
             }
+        }
+
+        if (survivalText != null)
+        {
+            survivalText.text = "Water bottles: " + waterBottles;
         }
     }
 
@@ -63,6 +78,9 @@ public class SurvivalMod : MonoBehaviour
 
     public void AddWater()
     {
-        Debug.Log("Added random water");
+        int randomBottles = Random.Range(1, 4);
+        waterBottles += randomBottles;
+        Debug.Log("Hittade " + randomBottles + "vattenflaskor! Totalt: " + waterBottles);
     }
+    
 }
